@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { CoralData, columns } from "./app/coral-data/columns";
+import { DataTable } from "@/components/ui/data-table";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+async function getCoralData(): Promise<CoralData[]> {
+  const res = await fetch(
+    "https://6622f3de3e17a3ac846e4fa7.mockapi.io/CoralData"
+  );
+  const data = await res.json();
+  return data;
 }
 
-export default App
+export default function Page() {
+  const [data, setData] = useState([]);
+  // const [variable, setVariable] = useState(valor)
+  // const [contatador, setContador] = useState(0)
+  // let fetched = 0;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // if (fetched == 0) {
+      //   setData(await getCoralData());
+      //   fetched = 1;
+      //   return data;
+      // }
+      setData(await getCoralData());
+    };
+    fetchData()
+  }, []);
+
+  return (
+    <section className="py-24">
+      <div className="container">
+        <h1 className="mb-6 text-3xl font-bold">All Data</h1>
+        <DataTable columns={columns} data={data} />
+      </div>
+    </section>
+  );
+}
