@@ -35,10 +35,20 @@ export const columns: ColumnDef<CoralData>[] = [
   {
     accessorKey: "created_at",
     header: "Creation date",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue('created_at'))
+      const formatted = date.toLocaleDateString()
+      return <div className='font-medium'>{formatted}</div>
+    }
   },
   {
     accessorKey: "updated_at",
     header: "Updated at",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue('updated_at'))
+      const formatted = date.toLocaleDateString()
+      return <div className='font-medium'>{formatted}</div>
+    }
   },
   {
     accessorKey: "qty",
