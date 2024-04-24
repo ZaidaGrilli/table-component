@@ -27,12 +27,15 @@ import React from "react"
 
 interface DataTableProps<TData, TValue> {
   // columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  headers: {string: string} //TODO use proper type
 }
 
 export function DataTable<TData, TValue>({
   data,
+  headers
 }: DataTableProps<TData, TValue>) {
+  console.log("Headers", headers)
   if (!data[0]){
     return null
   }
