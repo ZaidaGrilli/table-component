@@ -26,14 +26,24 @@ import { Input } from "@/components/ui/input"
 import React from "react"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
+  // columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
 export function DataTable<TData, TValue>({
-  columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  if (!data[0]){
+    return null
+  }
+  const columns = Object.keys(data[0]).map((key) => {
+    return {
+      header: key,
+      accessorKey: key,
+    }
+  })
+
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -52,7 +62,6 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    
   })
 
   return (
@@ -136,6 +145,6 @@ export function DataTable<TData, TValue>({
           </div>
     </div>
 
-    
+
   )
 }

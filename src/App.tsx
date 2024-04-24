@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CoralData, columns } from "./app/coral-data/columns";
+import { CoralData } from "./app/coral-data/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 async function getCoralData(): Promise<CoralData[]> {
@@ -12,17 +12,10 @@ async function getCoralData(): Promise<CoralData[]> {
 
 export default function Page() {
   const [data, setData] = useState<CoralData[]>([]);
-  // const [variable, setVariable] = useState(valor)
-  // const [contatador, setContador] = useState(0)
-  // let fetched = 0;
 
   useEffect(() => {
     const fetchData = async () => {
-      // if (fetched == 0) {
-      //   setData(await getCoralData());
-      //   fetched = 1;
-      //   return data;
-      // }
+
       setData(await getCoralData());
     };
     fetchData()
@@ -32,7 +25,7 @@ export default function Page() {
     <section className="py-24">
       <div className="container">
         <h1 className="mb-6 text-3xl font-bold">All Data</h1>
-        <DataTable columns={columns} data={data} />
+        <DataTable data={data}  />
       </div>
     </section>
   );
