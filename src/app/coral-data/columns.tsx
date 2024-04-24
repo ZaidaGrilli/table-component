@@ -52,11 +52,31 @@ export const columns: ColumnDef<CoralData>[] = [
   },
   {
     accessorKey: "id",
-    header: "Id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "created_at",
-    header: "Creation date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Creation date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const date = new Date(row.getValue('created_at'))
       const formatted = date.toLocaleDateString()
@@ -65,7 +85,17 @@ export const columns: ColumnDef<CoralData>[] = [
   },
   {
     accessorKey: "updated_at",
-    header: "Updated at",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Creation date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const date = new Date(row.getValue('updated_at'))
       const formatted = date.toLocaleDateString()
@@ -74,19 +104,59 @@ export const columns: ColumnDef<CoralData>[] = [
   },
   {
     accessorKey: "qty",
-    header: "Quantity",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Quantity
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "tray_id",
-    header: "Tray Id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tray ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "group_id",
-    header: "Group Id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Group ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "health_status",
-    header: "Healthy",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Health Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "notes",

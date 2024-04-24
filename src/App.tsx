@@ -11,7 +11,7 @@ async function getCoralData(): Promise<CoralData[]> {
 }
 
 export default function Page() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<CoralData[]>([]);
   // const [variable, setVariable] = useState(valor)
   // const [contatador, setContador] = useState(0)
   // let fetched = 0;
