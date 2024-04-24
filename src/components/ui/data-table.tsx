@@ -33,16 +33,21 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   data,
-  headers
 }: DataTableProps<TData, TValue>) {
-  console.log("Headers", headers)
   if (!data[0]){
     return null
   }
   const columns = Object.keys(data[0]).map((key) => {
     return {
-      header: key,
+      header: formatHeader(key),
       accessorKey: key,
+    }
+    // Helper function to format header text
+    function formatHeader(key: string): string {
+        // Split the key by underscores and capitalize each word
+        const words = key.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+        // Join the words with spaces to form the formatted header
+      return words.join(' ');
     }
   })
 
