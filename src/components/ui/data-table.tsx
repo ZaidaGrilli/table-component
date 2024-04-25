@@ -28,18 +28,19 @@ import React from "react"
 interface DataTableProps<TData, TValue> {
   // columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  headers: {string: string} //TODO use proper type
+  headers: { [key: string]: string }; //TODO use proper type (I think this would work? indicates each key is a string (representing the column accessor key) and each value is also a string (representing the column header text).)
 }
 
 export function DataTable<TData, TValue>({
   data,
+  headers
 }: DataTableProps<TData, TValue>) {
   if (!data[0]){
     return null
   }
   const columns = Object.keys(data[0]).map((key) => {
     return {
-      header: formatHeader(key),
+      header: headers[key] || formatHeader(key),
       accessorKey: key,
     }
     // Helper function to format header text
@@ -51,11 +52,8 @@ export function DataTable<TData, TValue>({
     }
   })
 
-
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,
