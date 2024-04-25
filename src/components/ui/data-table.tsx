@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import React from "react"
+import { ArrowUpDown } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   // columns: ColumnDef<TData, TValue>[]
@@ -35,12 +36,26 @@ export function DataTable<TData, TValue>({
   data,
   headers
 }: DataTableProps<TData, TValue>) {
-  if (!data[0]){
-    return null
-  }
-  const columns = Object.keys(data[0]).map((key) => {
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+
+  const firstRow: object = data[0] as object
+  
+  const columns = Object.keys(firstRow).map((key) => {
+    const formattedHeader =  headers[key] || formatHeader(key)
+
     return {
-      header: headers[key] || formatHeader(key),
+      header: ({column}) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            {formattedHeader}
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
       accessorKey: key,
     }
     // Helper function to format header text
@@ -52,8 +67,6 @@ export function DataTable<TData, TValue>({
     }
   })
 
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,

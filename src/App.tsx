@@ -25,7 +25,7 @@ export default function Page() {
     <section className="py-24">
       <div className="container">
         <h1 className="mb-6 text-3xl font-bold">All Data</h1>
-        <DataTable data={data} headers={{"created_at":"Created"}}/>
+        {data.length > 0 && <DataTable data={data} headers={{"created_at":"Created"}}/>}
       </div>
     </section>
   );
