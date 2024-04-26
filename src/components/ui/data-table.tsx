@@ -10,6 +10,7 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
+  Row,
 } from "@tanstack/react-table"
 
 import {
@@ -29,7 +30,7 @@ import { ArrowUpDown } from "lucide-react"
 interface DataTableProps<TData, TValue> {
   // columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  headers: { [key: string]: string }; //TODO use proper type (I think this would work? indicates each key is a string (representing the column accessor key) and each value is also a string (representing the column header text).)
+  headers: { [key: string]: {[key: string]: string }}; //TODO use proper type (I think this would work? indicates each key is a string (representing the column accessor key) and each value is also a string (representing the column header text).)
 }
 
 export function DataTable<TData, TValue>({
@@ -42,7 +43,8 @@ export function DataTable<TData, TValue>({
   const firstRow: object = data[0] as object
   
   const columns = Object.keys(firstRow).map((key) => {
-    const formattedHeader =  headers[key] || formatHeader(key)
+  const formattedHeader =  headers[key]?.['name'] || formatHeader(key)
+  const isDate = headers[key]?.type === "date"
 
     return {
       header: ({column}) => {
@@ -57,6 +59,12 @@ export function DataTable<TData, TValue>({
         )
       },
       accessorKey: key,
+      //TODO Create function that determines if the data is a date to be formated as one (I tried to mox some stuff up, but im a bit confused by the typescript
+        //Also it is only applying to the Created at and not to the Updated at Column yet)
+      cell: ({ row }: {row:Row<TData>}) => {
+        // Check if the data is a date and format it accordingly
+        return isDate ? formatDate(key, row.original) : row.original[key];
+      },
     }
     // Helper function to format header text
     function formatHeader(key: string): string {
@@ -67,6 +75,22 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  function formatDate(key: string, rowData: any): string {
+    // Get the value from the row data using the key
+    const value = rowData[key];
+  
+    // Check if the value is a valid date
+    const isDate = !isNaN(Date.parse(value));
+  
+    // If it's a date, format it
+    if (isDate) {
+      const date = new Date(value);
+      return date.toLocaleDateString();
+    }
+  
+    // If it's not a date, return the original value
+    return value;
+  }
 
   const table = useReactTable({
     data,
